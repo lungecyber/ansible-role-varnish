@@ -1,0 +1,5 @@
+varnish_version: "7.5"
+
+varnish_repositories:
+  - "deb [signed-by=/etc/apt/trusted.gpg.d/varnish{{ varnish_version }}.asc] https://packagecloud.io/varnishcache/varnish{{ varnish_version | regex_replace('[.~]', '') }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"
+  - "deb-src [signed-by=/etc/apt/trusted.gpg.d/varnish{{ varnish_version }}.asc] https://packagecloud.io/varnishcache/varnish{{ varnish_version | regex_replace('[.~]', '') }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main"

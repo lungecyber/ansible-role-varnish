@@ -1,0 +1,42 @@
+---
+- name: Ensure dependencies are present.
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - gnupg2
+    state: present
+
+- name: Download varnish gpg key
+  ansible.builtin.get_url:
+    url: "https://packagecloud.io/varnishcache/varnish{{ varnish_version | regex_replace('[.~]', '') }}/gpgkey"
+    dest: "/etc/apt/trusted.gpg.d/varnish{{ varnish_version }}.asc"
+
+- name: Add varnish repo to sources
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items: "{{ varnish_repositories }}"
+
+- name: Install varnish
+  ansible.builtin.apt:
+    name:
+      - "varnish={{ varnish_version }}*"
+    state: present
+
+- name: Ensure varnish service is started and enabled
+  ansible.builtin.service:
+    name: varnish
+    state: started
+    enabled: true
+# - name: Verify varnish is working properly
+#   ansible.builtin.uri:
+#     url: http://localhost:6081/index.html
+#     method: GET
+#     validate_certs: no
+#     status_code: 503
+#   register: result
+
+# - name: debug
+#   debug:
+#     msg: "{{ result }}"
