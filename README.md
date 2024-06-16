@@ -7,4 +7,4 @@
 
 | Variable Name | Value | Type | Default |
 | ------ | ------ | ------ | ------ |
-| varnish_version | defines which version of varnish is installed | String | 7.5 |
+| varnish_version | defines which version of varnish will be installed | String | 7.5 |
